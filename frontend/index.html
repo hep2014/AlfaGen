@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AlfaGen: Privacy Gateway</title>
+</head>
+
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="logo">Alpha<span>:</span>Privacy Gateway</div>
+      <div class="status" id="status">
+        <span class="status-dot"></span>
+        <span class="status-text" id="statusText">Проверка...</span>
+      </div>
+    </header>
+
+    <div class="layout">
+      <div class="panel chat-panel">
+        <div class="panel-header">Диалог с моделью</div>
+        <div class="chat-messages" id="messages">
+          <div class="message message-ai">
+            Привет! Напишите сообщение — оно уйдёт в LLM через модуль защиты ПДН.
+            Персональные данные будут замаскированы, а в ответе — восстановлены.
+          </div>
+        </div>
+        <div class="chat-input-area">
+          <input type="text" class="chat-input" id="input" placeholder="Введите сообщение..." autocomplete="off">
+          <button class="send-btn" id="sendBtn" title="Отправить">
+            <svg viewBox="0 0 24 24">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="panel masked-panel">
+        <div class="panel-header">Что ушло в LLM</div>
+        <div class="masked-content" id="maskedContent">
+          <div class="placeholder">
+            Здесь появится замаскированный текст,
+            который был отправлен в модель.
+            <br><br>
+            Персональные данные заменяются
+            на токены вида <code>[[PD:...]]</code>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>

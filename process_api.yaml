@@ -1,0 +1,97 @@
+openapi: 3.0.3
+info:
+  title: Alpha Privacy Gateway evaluator API
+  version: 0.1.0
+  description: |
+    Minimal public contract used by the evaluator. The service keeps a reversible
+    mapping per payload_id: the first request masks the payload and a repeated
+    request with the same payload_id restores the original text.
+servers:
+  - url: http://localhost:8000
+paths:
+  /process:
+    post:
+      summary: Mask or restore one payload
+      operationId: processPayload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcessRequest'
+            examples:
+              firstRequest:
+                value:
+                  payload: 'Контакт: demo@example.org'
+                  payload_id: 'demo-001'
+      responses:
+        '200':
+          description: Masked or restored payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessResponse'
+        '400':
+          description: Invalid JSON or request body
+        '409':
+          description: Same payload_id was reused with a different payload
+        '422':
+          description: Validation or processing error
+        '429':
+          description: Capacity temporarily exhausted
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+              description: Seconds before retrying the same request
+        '503':
+          description: Temporary processing failure
+  /health/live:
+    get:
+      summary: Liveness and supported detector types
+      operationId: healthLive
+      responses:
+        '200':
+          description: Service is alive
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, mode, external_llm_enabled, supported_types]
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  mode:
+                    type: string
+                    example: local-echo
+                  external_llm_enabled:
+                    type: boolean
+                  supported_types:
+                    type: array
+                    items:
+                      type: string
+components:
+  schemas:
+    ProcessRequest:
+      type: object
+      additionalProperties: false
+      required: [payload, payload_id]
+      properties:
+        payload:
+          type: string
+          minLength: 1
+          maxLength: 16000000
+          description: UTF-8 text to mask or restore.
+        payload_id:
+          type: string
+          minLength: 1
+          maxLength: 128
+          description: Stable identifier for one logical payload. Keep it unchanged for a retry.
+    ProcessResponse:
+      type: object
+      additionalProperties: false
+      required: [result]
+      properties:
+        result:
+          type: string

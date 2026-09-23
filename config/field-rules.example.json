@@ -1,0 +1,4 @@
+[
+  {"kind": "CUSTOMER_ID", "labels": ["Код клиента", "Customer ID"]},
+  {"kind": "CONTRACT_ID", "labels": ["Номер договора"]}
+]

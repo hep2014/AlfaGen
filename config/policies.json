@@ -1,0 +1,57 @@
+{
+  "support-demo": {
+    "version": "4",
+    "enabled": true,
+    "detect_types": [
+      "ADDRESS",
+      "BIRTH_DATE",
+      "BIRTH_CERTIFICATE",
+      "BIRTH_PLACE",
+      "CARD",
+      "CARDHOLDER",
+      "CITIZENSHIP",
+      "CVV",
+      "DEPARTMENT_CODE",
+      "DRIVER_LICENSE",
+      "EMAIL",
+      "FOREIGN_PASSPORT",
+      "INN",
+      "ISSUE_DATE",
+      "PASSPORT_ISSUER",
+      "PASSPORT_RU",
+      "PERSON",
+      "PHONE",
+      "PIN"
+    ],
+    "restore_enabled": true,
+    "session_ttl_seconds": 300
+  },
+  "analytics-demo": {
+    "version": "4",
+    "enabled": true,
+    "detect_types": [
+      "ADDRESS",
+      "BIRTH_DATE",
+      "BIRTH_CERTIFICATE",
+      "BIRTH_PLACE",
+      "CARD",
+      "CARDHOLDER",
+      "CITIZENSHIP",
+      "CVV",
+      "DEPARTMENT_CODE",
+      "DRIVER_LICENSE",
+      "EMAIL",
+      "FOREIGN_PASSPORT",
+      "INN",
+      "ISSUE_DATE",
+      "PASSPORT_ISSUER",
+      "PASSPORT_RU",
+      "PERSON",
+      "PHONE",
+      "PIN"
+    ],
+    "mode_by_type": {"PIN": "redact", "CVV": "redact"},
+    "restore_enabled": false,
+    "session_ttl_seconds": 60
+  }
+}
