@@ -7,6 +7,7 @@ import re
 import time
 from contextlib import asynccontextmanager
 from pathlib import Path
+from fastapi.middleware.cors import CORSMiddleware
 
 from fastapi import Depends, FastAPI, Header, HTTPException
 from fastapi.exceptions import RequestValidationError
@@ -309,6 +310,19 @@ def create_app(policies: dict[str, Policy], credentials: dict[str, str],
                 process_service.vault.close()
 
     app = FastAPI(title="Alpha Privacy Gateway — scaffold", version="0.1.0", lifespan=lifespan)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[
+            "https://ДОМЕН-ТВОЕГО-FRONTEND",
+        ],
+        allow_credentials=False,
+        allow_methods=["GET", "POST", "OPTIONS"],
+        allow_headers=[
+            "Content-Type",
+            "X-System-ID",
+            "X-API-Key",
+        ],
+    )
     buffer_gauge = Gauge("privacy_request_buffer_bytes", "Reserved incoming body bytes; not total RSS", registry=registry)
     app.add_middleware(AuditMiddleware, counter=http_requests, histogram=http_latency, buffer_gauge=buffer_gauge)
 
