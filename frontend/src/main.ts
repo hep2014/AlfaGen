@@ -1,8 +1,11 @@
 import './style.css';
 
-const API_URL = '/api';  // через прокси Vite
-const SYSTEM_ID = 'support-demo';
-const API_KEY = 'demo-key-12345678901234567890123456789012';
+const API_URL =
+  import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+const SYSTEM_ID =
+  import.meta.env.VITE_SYSTEM_ID || 'support-demo';
+const API_KEY =
+  import.meta.env.VITE_API_KEY || '';
 
 const messagesEl = document.getElementById('messages')!;
 const inputEl = document.getElementById('input') as HTMLInputElement;
