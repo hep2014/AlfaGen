@@ -313,7 +313,7 @@ def create_app(policies: dict[str, Policy], credentials: dict[str, str],
     app.add_middleware(
         CORSMiddleware,
         allow_origins=[
-            "https://ДОМЕН-ТВОЕГО-FRONTEND",
+            "https://hep2014-alfagen-4c97.twc1.net",
         ],
         allow_credentials=False,
         allow_methods=["GET", "POST", "OPTIONS"],
