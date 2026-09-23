@@ -356,7 +356,15 @@ def from_env() -> FastAPI:
         name: Policy.model_validate(value)
         for name, value in json.loads(path.read_text(encoding="utf-8")).items()
     }
-    credentials = json.loads(os.environ.get("GATEWAY_API_KEYS", "{}"))
+    raw_credentials = os.environ.get("GATEWAY_API_KEYS", "").strip()
+    single_key = os.environ.get("GATEWAY_API_KEY", "").strip()
+
+    if raw_credentials:
+        credentials = json.loads(raw_credentials.strip("'\""))
+    elif single_key:
+        credentials = {"support-demo": single_key}
+    else:
+        credentials = {}
     storage_options = {
         "process_capacity": int(os.environ.get("PROCESS_CAPACITY", "100000")),
         "process_max_bytes": int(os.environ.get("PROCESS_MAX_BYTES", str(128 * 1024 * 1024))),
